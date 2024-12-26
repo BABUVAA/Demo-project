@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { Form, useNavigate } from "react-router-dom";
 import md5 from "md5"; // Ensure md5 is installed to hash passwords
 import api from "../api/axiosApi";
+import { login } from "../store/authSlice";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -32,20 +33,17 @@ const Login = () => {
     }
 
     try {
-      const response = await api.post("/login", payload);
-
-      // Handle response
-      if (response) {
-        if (response.status === 200) {
-          // Redirect to a protected route like a dashboard
+      dispatch(login(payload))
+        .unwrap()
+        .then(() => {
+          // Handle success
+          alert("Login successful!");
           navigate("/dashboard");
-          setError(""); // Clear error if login is successful
-        } else {
-          setError("Invalid username or password.");
-        }
-      } else {
-        setError("Login failed. Please try again.");
-      }
+        })
+        .catch((err) => {
+          // Handle failure
+          console.error("Login failed:", err);
+        });
     } catch (error) {
       console.error("Login error:", error);
       setError("An error occurred. Please try again.");

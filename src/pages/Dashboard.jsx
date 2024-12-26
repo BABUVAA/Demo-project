@@ -1,140 +1,161 @@
-import { TiHome } from "react-icons/ti";
-import { FaArrowDown } from "react-icons/fa"; // Import FaArrowDown
+import { useState } from "react";
+import { FaArrowDown } from "react-icons/fa";
 import { IoMdLogOut } from "react-icons/io";
+import { TiHome } from "react-icons/ti";
 import { Link, NavLink, Outlet } from "react-router-dom";
+import { CiMenuBurger } from "react-icons/ci";
+import { IoClose } from "react-icons/io5";
 
 const Dashboard = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isUserMgmtOpen, setIsUserMgmtOpen] = useState(false);
+  const [isGameMgmtOpen, setIsGameMgmtOpen] = useState(false);
+
+  // Toggle burger menu
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+
+  // Toggle User Management submenu
+  const toggleUserMgmt = () => setIsUserMgmtOpen(!isUserMgmtOpen);
+
+  // Toggle Game Management submenu
+  const toggleGameMgmt = () => setIsGameMgmtOpen(!isGameMgmtOpen);
+
   return (
     <>
-      <div className="flex  flex-wrap flex-col">
-        <header className="flex flex-wrap content-center top-0 bg-slate-500 shadow-lg w-full h-14 z-50">
+      <div className="flex flex-col">
+        <header className="bg-gradient-to-r from-indigo-600 to-blue-500 shadow-lg w-full h-16 z-50">
           {/* Navbar */}
-          <div className="flex flex-wrap  w-full content-center justify-between bg-slate-500 p-1">
-            <div className="flex flex-wrap content-center  gap-2">
-              {/* Logo Section */}
-              <div className="flex justify-between p-1">
-                <img src="/Logo.png" alt="Logo" className="h-10" />
-              </div>
-              {/* Home button */}
-              <div className="flex flex-wrap content-center">
-                <NavLink to="/dashboard" className="ml-6">
-                  <TiHome size={30} />
-                </NavLink>
-              </div>
-              {/* User mgmt Dropdown */}
-              <div className="ml-3 flex flex-wrap content-center group relative">
-                <div className="flex flex-wrap justify-around content-center">
-                  <label>User mgmt</label>
-                  <div className="flex flex-wrap content-center ml-2">
-                    <FaArrowDown
-                      className="transition-transform duration-300 group-hover:rotate-180"
-                      size={15}
-                    />
-                  </div>
-                </div>
-
-                {/* Dropdown menu that shows on hover */}
-                <div className="absolute left-0 w-48 hidden bg-white shadow-lg rounded-md mt-12 opacity-0 group-hover:opacity-100 group-hover:block transition-opacity duration-300">
-                  <ul className="text-sm text-gray-700">
-                    <li>
-                      <Link
-                        to="searchUser"
-                        className="block px-4 py-2 hover:bg-gray-100"
-                      >
-                        Search User
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        to="subUserRegistration"
-                        className="block px-4 py-2 hover:bg-gray-100"
-                      >
-                        Sub User Registration
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        to="editUserPrivileges"
-                        className="block px-4 py-2 hover:bg-gray-100"
-                      >
-                        Edit Sub User Privileges
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        to="networkAccessManagement"
-                        className="block px-4 py-2 hover:bg-gray-100"
-                      >
-                        Network Access Management
-                      </Link>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-              {/* Game mgmt Dropdown */}
-              <div className="ml-3 flex flex-wrap content-center group relative">
-                <div className="flex flex-wrap justify-around content-center">
-                  <label>Game mgmt</label>
-                  <div className="flex flex-wrap content-center ml-2">
-                    <FaArrowDown
-                      className="transition-transform duration-300 group-hover:rotate-180"
-                      size={15}
-                    />
-                  </div>
-                </div>
-
-                {/* Dropdown menu that shows on hover */}
-                <div className="absolute left-0 w-48 hidden bg-white shadow-lg rounded-md mt-12 opacity-0 group-hover:opacity-100 group-hover:block transition-opacity duration-300 ">
-                  <ul className="text-sm text-gray-700">
-                    <li>
-                      <Link
-                        to="searchGames"
-                        className="block px-4 py-2 hover:bg-gray-100"
-                      >
-                        Search Games
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        to="uploadGames"
-                        className="block px-4 py-2 hover:bg-gray-100"
-                      >
-                        Upload New Game
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        to="generateData"
-                        className="block px-4 py-2 hover:bg-gray-100"
-                      >
-                        Generate Test Ready Data
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        to="printData"
-                        className="block px-4 py-2 hover:bg-gray-100"
-                      >
-                        Generate Print Ready Data
-                      </Link>
-                    </li>
-                  </ul>
-                </div>
-              </div>
+          <div className="flex items-center justify-between px-8 h-full">
+            {/* Logo Section on the Left */}
+            <div className="flex items-center">
+              <Logo />
             </div>
-            <div className="flex flex-wrap justify-center content-center mr-8">
-              <NavLink to="/logout" className="ml-6">
-                <div className="flex flex-wrap justify-around content-center">
-                  <label>Logout</label>
-                  <div className="flex flex-wrap content-center ml-2">
-                    <IoMdLogOut size={15} />
-                  </div>
+
+            {/* Burger Menu Icon for Small Screens (Right side) */}
+            <div className="lg:hidden flex items-center ml-auto">
+              <button onClick={toggleMenu} className="text-white">
+                <div className="space-y-2">
+                  {isMenuOpen ? (
+                    <IoClose size={30} />
+                  ) : (
+                    <CiMenuBurger size={30} />
+                  )}
                 </div>
-              </NavLink>
+              </button>
+            </div>
+
+            {/* Navigation & Actions (For Large Screens) */}
+            <div className="hidden lg:flex items-center gap-8">
+              <Home />
+              <GameMgmt />
+              <UserMgmt />
+              <Logout />
             </div>
           </div>
         </header>
-        <main className="flex flex-wrap  mt-10 h-full">
+
+        {/* Dropdown Menu for Small Screens */}
+        <div
+          className={`lg:hidden ${
+            isMenuOpen ? "block" : "hidden"
+          } bg-gray-800 text-white w-full p-4`}
+        >
+          <Link to="#" className="block py-2">
+            Home
+          </Link>
+
+          <div className="border-t border-gray-700 pt-4">
+            <div className="flex items-center justify-between py-2">
+              <Link to="#" className="block">
+                User Management
+              </Link>
+              <FaArrowDown
+                className={`transition-transform duration-300 ${
+                  isUserMgmtOpen ? "rotate-180" : ""
+                }`}
+                onClick={toggleUserMgmt}
+                size={15}
+              />
+            </div>
+            {isUserMgmtOpen && (
+              <div className="pl-6 pb-4 border-t border-gray-700">
+                <Link
+                  to="#"
+                  className="block py-2 hover:bg-gray-700 transition-colors"
+                >
+                  Search User
+                </Link>
+                <Link
+                  to="#"
+                  className="block py-2 hover:bg-gray-700 transition-colors"
+                >
+                  Sub User Registration
+                </Link>
+                <Link
+                  to="#"
+                  className="block py-2 hover:bg-gray-700 transition-colors"
+                >
+                  Edit Sub User Privileges
+                </Link>
+                <Link
+                  to="#"
+                  className="block py-2 hover:bg-gray-700 transition-colors"
+                >
+                  Network Access Management
+                </Link>
+              </div>
+            )}
+          </div>
+
+          <div className="border-t border-b border-gray-700 pt-4">
+            <div className="flex items-center justify-between py-2">
+              <Link to="#" className="block">
+                Game Management
+              </Link>
+              <FaArrowDown
+                className={`transition-transform duration-300 ${
+                  isGameMgmtOpen ? "rotate-180" : ""
+                }`}
+                onClick={toggleGameMgmt}
+                size={15}
+              />
+            </div>
+            {isGameMgmtOpen && (
+              <div className="pl-6 pb-4 border-t border-b border-gray-700">
+                <Link
+                  to="#"
+                  className="block py-2 hover:bg-gray-700 transition-colors"
+                >
+                  Search Games
+                </Link>
+                <Link
+                  to="#"
+                  className="block py-2 hover:bg-gray-700 transition-colors"
+                >
+                  Upload New Game
+                </Link>
+                <Link
+                  to="#"
+                  className="block py-2 hover:bg-gray-700 transition-colors"
+                >
+                  Generate Test Ready Data
+                </Link>
+                <Link
+                  to="#"
+                  className="block py-2 hover:bg-gray-700 transition-colors"
+                >
+                  Generate Print Ready Data
+                </Link>
+              </div>
+            )}
+          </div>
+
+          <div className="flex justify-between pt-4">
+            <label>Logout</label> <Logout />
+          </div>
+        </div>
+
+        <main className="flex flex-col mt-8 px-8 h-full">
           <Outlet />
         </main>
       </div>
@@ -143,3 +164,137 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+
+const Logo = () => {
+  return (
+    <div className="flex items-center">
+      <img src="/Logo.png" alt="Logo" className="h-10" />
+    </div>
+  );
+};
+
+const Home = () => {
+  return (
+    <NavLink
+      to="#"
+      className="text-white flex items-center hover:text-gray-300 transition-colors"
+    >
+      <TiHome size={30} />
+    </NavLink>
+  );
+};
+
+const UserMgmt = () => {
+  return (
+    <div className="ml-3 h-full flex items-center group relative">
+      <div className="flex items-center gap-2 text-white">
+        <label>User mgmt</label>
+        <FaArrowDown
+          className="transition-transform duration-300 group-hover:rotate-180"
+          size={15}
+        />
+      </div>
+
+      {/* Dropdown menu */}
+      <div className="absolute left-0 w-48 hidden bg-white shadow-lg rounded-md mt-56 opacity-0 group-hover:opacity-100 group-hover:block transition-opacity duration-300 z-50">
+        <ul className="text-sm text-gray-700">
+          <li>
+            <Link
+              to="#"
+              className="block px-4 py-2 hover:bg-gray-100 transition-colors"
+            >
+              Search User
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="#"
+              className="block px-4 py-2 hover:bg-gray-100 transition-colors"
+            >
+              Sub User Registration
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="#"
+              className="block px-4 py-2 hover:bg-gray-100 transition-colors"
+            >
+              Edit Sub User Privileges
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="#"
+              className="block px-4 py-2 hover:bg-gray-100 transition-colors"
+            >
+              Network Access Management
+            </Link>
+          </li>
+        </ul>
+      </div>
+    </div>
+  );
+};
+
+const GameMgmt = () => {
+  return (
+    <div className="ml-3 h-full flex items-center group relative">
+      <div className="flex items-center gap-2 text-white">
+        <label>Game mgmt</label>
+        <FaArrowDown
+          className="transition-transform duration-300 group-hover:rotate-180"
+          size={15}
+        />
+      </div>
+
+      {/* Dropdown menu */}
+      <div className="absolute left-0 w-48 hidden bg-white shadow-lg rounded-md mt-56 opacity-0 group-hover:opacity-100 group-hover:block transition-opacity duration-300 z-50">
+        <ul className="text-sm text-gray-700">
+          <li>
+            <Link
+              to="#"
+              className="block px-4 py-2 hover:bg-gray-100 transition-colors"
+            >
+              Search Games
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="#"
+              className="block px-4 py-2 hover:bg-gray-100 transition-colors"
+            >
+              Upload New Game
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="#"
+              className="block px-4 py-2 hover:bg-gray-100 transition-colors"
+            >
+              Generate Test Ready Data
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="#"
+              className="block px-4 py-2 hover:bg-gray-100 transition-colors"
+            >
+              Generate Print Ready Data
+            </Link>
+          </li>
+        </ul>
+      </div>
+    </div>
+  );
+};
+
+const Logout = () => {
+  return (
+    <NavLink
+      to="#"
+      className="text-white flex items-center hover:text-gray-300 transition-colors"
+    >
+      <IoMdLogOut size={25} />
+    </NavLink>
+  );
+};
