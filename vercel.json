@@ -1,7 +1,8 @@
 {
     "redirects": [
-      { "source": "/", "destination": "/", "permanent": true },
-      { "source": "/dashboard", "destination": "/dashboard", "permanent": true }
+      { "source": "/", "destination": "/index/html", "permanent": true },
+      { "source": "/dashboard", "destination": "/index.html", "permanent": true },
+      { "source": "/*", "destination": "/index.html", "permanent": true }
 
     ]
   }
