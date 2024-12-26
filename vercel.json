@@ -1,0 +1,7 @@
+{
+    "redirects": [
+      { "source": "/", "destination": "/", "permanent": true },
+      { "source": "/dashboard", "destination": "/dashboard", "permanent": true }
+
+    ]
+  }
