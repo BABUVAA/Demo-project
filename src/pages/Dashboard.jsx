@@ -2,15 +2,25 @@ import { useState } from "react";
 import { FaArrowDown } from "react-icons/fa";
 import { IoMdLogOut } from "react-icons/io";
 import { TiHome } from "react-icons/ti";
-import { Link, NavLink, Outlet } from "react-router-dom";
+import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
 import { CiMenuBurger } from "react-icons/ci";
 import { IoClose } from "react-icons/io5";
+import { useDispatch } from "react-redux";
+import { logout } from "../store/authSlice";
+import "../styles/index.css";
 
 const Dashboard = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isUserMgmtOpen, setIsUserMgmtOpen] = useState(false);
   const [isGameMgmtOpen, setIsGameMgmtOpen] = useState(false);
 
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const logOut = () => {
+    dispatch(logout());
+    navigate("/");
+  };
   // Toggle burger menu
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
@@ -150,12 +160,12 @@ const Dashboard = () => {
             )}
           </div>
 
-          <div className="flex justify-between pt-4">
+          <div className="flex justify-between pt-4" onClick={logOut}>
             <label>Logout</label> <Logout />
           </div>
         </div>
 
-        <main className="flex flex-col mt-8 px-8 h-full">
+        <main className="flex flex-col mt-8 px-1 md:px-8 h-full">
           <Outlet />
         </main>
       </div>
@@ -289,8 +299,16 @@ const GameMgmt = () => {
 };
 
 const Logout = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const logOut = () => {
+    dispatch(logout());
+    navigate("/");
+  };
   return (
     <NavLink
+      onClick={logOut}
       to="#"
       className="text-white flex items-center hover:text-gray-300 transition-colors"
     >

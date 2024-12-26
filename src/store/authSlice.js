@@ -15,6 +15,20 @@ export const login = createAsyncThunk(
     }
   }
 );
+// Async thunk for user login
+export const logout = createAsyncThunk(
+  "/logout",
+  async (credentials, { rejectWithValue }) => {
+    try {
+      const response = await api.get("/logout", {
+        withCredentials: true,
+      });
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+);
 
 // Auth slice
 const authSlice = createSlice({

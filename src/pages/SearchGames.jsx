@@ -50,7 +50,7 @@ const SearchGames = () => {
             </div>
           )}
 
-          <div className="p-6 bg-gray-100 w-full">
+          <div className="p-2 md:p-6 bg-gray-100 w-full">
             <AvailableGamesTable games={games} />
             {downloadData ? <FileTable downloadData={downloadData} /> : ""}
           </div>
@@ -135,23 +135,35 @@ const AvailableGamesTable = (games) => {
     });
   };
   return (
-    <div className=" bg-white p-6 rounded-lg shadow-lg">
+    <div className=" bg-white p-2 md:p-6 rounded-lg shadow-lg ">
       <div className="overflow-x-auto">
         <table className="w-full table-auto border-collapse">
           <thead className="bg-gradient-to-r from-gray-200 to-gray-300">
             <tr>
-              <th className="py-3 px-4 text-center font-semibold">S.No</th>
-              <th className="py-3 px-4 text-center font-semibold">Game Name</th>
-              <th className="py-3 px-4 text-center font-semibold">Game No</th>
-              <th className="py-3 px-4 text-center font-semibold">Batch No</th>
-              <th className="py-3 px-4 text-center font-semibold">
+              <th className="py-3 md:px-4 px-1 text-center font-semibold">
+                S.No
+              </th>
+              <th className="py-3 md:px-4 px-1 text-center font-semibold">
+                Game Name
+              </th>
+              <th className="py-3 md:px-4 px-1 text-center font-semibold">
+                Game No
+              </th>
+              <th className="py-3 md:px-4 px-1 text-center font-semibold">
+                Batch No
+              </th>
+              <th className="py-3 md:px-4 px-1 text-center font-semibold">
                 Ticket Cost
               </th>
-              <th className="py-3 px-4 text-center font-semibold">
+              <th className="py-3 md:px-4 px-1 text-center font-semibold">
                 Total Ticket QTY
               </th>
-              <th className="py-3 px-4 text-center font-semibold">Status</th>
-              <th className="py-3 px-4 text-center font-semibold">Actions</th>
+              <th className="py-3 md:px-4 px-1 text-center font-semibold">
+                Status
+              </th>
+              <th className="py-3 md:px-4 px-1 text-center font-semibold">
+                Actions
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -163,17 +175,24 @@ const AvailableGamesTable = (games) => {
                     index % 2 === 0 ? "bg-gray-50" : "bg-white"
                   } hover:bg-gray-100 transition-colors`}
                 >
-                  <td className="text-center py-3 px-4">{index + 1}</td>
-                  <td className="text-center py-3 px-4">{gameItem.gameName}</td>
-                  <td className="text-center py-3 px-4">{gameItem.gameNo}</td>
-                  <td className="text-center py-3 px-4">{gameItem.batchNo}</td>
-                  <td className="text-center py-3 px-4">
+                  <td className="text-center py-3 md:px-4 px-1">{index + 1}</td>
+                  <td className="text-center py-3 md:px-4 px-1">
+                    {gameItem.gameName}
+                  </td>
+                  <td className="text-center py-3 md:px-4 px-1">
+                    {gameItem.gameNo}
+                  </td>
+                  <td className="text-center py-3 md:px-4 px-1">
+                    {gameItem.batchNo}
+                  </td>
+                  <td className="text-center py-3 md:px-4 px-1">
+                    {" "}
                     {gameItem.ticketCost}
                   </td>
-                  <td className="text-center py-3 px-4">
+                  <td className="text-center py-3 md:px-4 px-1">
                     {gameItem.noOfTickets}
                   </td>
-                  <td className="text-center py-3 px-4">
+                  <td className="text-center py-3 md:px-4 px-1">
                     <span
                       className={`px-2 py-1 rounded text-sm ${
                         gameItem.status === "Initiated"
@@ -186,7 +205,7 @@ const AvailableGamesTable = (games) => {
                         : gameItem.status}
                     </span>
                   </td>
-                  <td className="text-center py-3 px-4">
+                  <td className="text-center py-3 md:px-4 px-1">
                     {gameItem.status === "Initiated" ? (
                       <button
                         onClick={handleGenerateClick}
@@ -262,18 +281,18 @@ const FileTable = (downloadData) => {
   };
 
   return (
-    <div className=" bg-white p-6 rounded-lg shadow-lg mt-6">
+    <div className=" bg-white p-1 md:p-6 rounded-lg shadow-lg mt-6">
       <div className="overflow-x-auto">
         <table className="w-full table-auto border-collapse">
           <thead className="bg-gradient-to-r from-gray-200 to-gray-300">
             <tr>
-              <th className="py-3 px-4 text-center font-semibold">
+              <th className="py-3 md:px-4 px-1 text-center font-semibold">
                 Ticket Range
               </th>
-              <th className="py-3 px-4 text-center font-semibold">
+              <th className="py-3 md:px-4 px-1 text-center font-semibold">
                 Ticket Text File
               </th>
-              <th className="py-3 px-4 text-center font-semibold">
+              <th className="py-3 md:px-4 px-1 text-center font-semibold">
                 Ticket VIRN File
               </th>
             </tr>
