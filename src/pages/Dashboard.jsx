@@ -57,8 +57,8 @@ const Dashboard = () => {
             {/* Navigation & Actions (For Large Screens) */}
             <div className="hidden lg:flex items-center gap-8">
               <Home />
-              <GameMgmt />
-              <UserMgmt />
+              {/* <GameMgmt />
+              <UserMgmt /> */}
               <Logout />
             </div>
           </div>
@@ -74,7 +74,7 @@ const Dashboard = () => {
             Home
           </Link>
 
-          <div className="border-t border-gray-700 pt-4">
+          {/* <div className="border-t border-gray-700 pt-4">
             <div className="flex items-center justify-between py-2">
               <Link to="#" className="block">
                 User Management
@@ -158,7 +158,7 @@ const Dashboard = () => {
                 </Link>
               </div>
             )}
-          </div>
+          </div> */}
 
           <div className="flex justify-between pt-4" onClick={logOut}>
             <label>Logout</label> <Logout />
