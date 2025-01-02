@@ -62,25 +62,25 @@ const SearchGames = () => {
 
 export default SearchGames;
 
-const AvailableGamesTable = (games) => {
+const AvailableGamesTable = ({ games }) => {
   const dispatch = useDispatch();
-  //Handle Generation
-  const handleGenerateClick = async () => {
+
+  // Handle Generate Click
+  const handleGenerateClick = async (gameItem) => {
     Swal.fire({
       title: "Are you sure?",
-      text: `Do you want to continue with the Generate ?`,
+      text: `Do you want to continue with the Generate?`,
       icon: "question",
       showCancelButton: true,
       confirmButtonText: "Yes, Generate",
       cancelButtonText: "No, Cancel",
     }).then(async (result) => {
       if (result.isConfirmed) {
-        // If user clicks "Yes", you can proceed with the download logic
+        // Use the passed gameItem for generating data
         const generateResponse = await api.get(
-          `/generateAllData?gameNo=${games[0].gameNo}&batchNo=${games[0].batchNo}`
+          `/generateAllData?gameNo=${gameItem.gameNo}&batchNo=${gameItem.batchNo}`
         );
         if (generateResponse.data.data === "success") {
-          // Show success alert if the response is successful
           Swal.fire({
             title: "Success!",
             text: "Data generated successfully.",
@@ -88,7 +88,6 @@ const AvailableGamesTable = (games) => {
             confirmButtonText: "OK",
           });
         } else {
-          // Handle failure case if needed
           Swal.fire({
             title: "Error!",
             text: "There was an issue with the data generation.",
@@ -97,16 +96,16 @@ const AvailableGamesTable = (games) => {
           });
         }
       } else {
-        // If user clicks "No", do nothing
         console.log("Generation Cancel.");
       }
     });
   };
-  // Handle Download Click - Show confirmation popup
-  const handleDownloadClick = async () => {
+
+  // Handle Download Click
+  const handleDownloadClick = async (gameItem) => {
     Swal.fire({
       title: "Are you sure?",
-      text: `Do you want to continue with the download ?`,
+      text: `Do you want to continue with the download?`,
       icon: "question",
       showCancelButton: true,
       confirmButtonText: "Yes, Download",
@@ -114,28 +113,28 @@ const AvailableGamesTable = (games) => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         const downloadData = {
-          noOfTickets: games.games[0].noOfTickets,
-          gameName: games.games[0].gameName,
-          gameNO: games.games[0].gameNo,
+          noOfTickets: gameItem.noOfTickets,
+          gameName: gameItem.gameName,
+          gameNO: gameItem.gameNo,
           no_Of_Tickets_Per_Book: "50",
           no_Of_Books_Per_Pack: "20",
-          noOfticketsInFile: games.games[0].noOfTickets,
-          batchNo: games.games[0].batchNo,
+          noOfticketsInFile: gameItem.noOfTickets,
+          batchNo: gameItem.batchNo,
         };
-        // If user clicks "Yes", you can proceed with the download logic
+        // Dispatch the download action with the correct data
         const downloadResponse = await dispatch(downloadGame(downloadData));
         if (downloadResponse) {
-          setDownload(true);
+          console.log("Download started");
+          // Optionally, set download state here if needed
         }
-        // Implement your download logic here
       } else {
-        // If user clicks "No", do nothing
         console.log("Download canceled.");
       }
     });
   };
+
   return (
-    <div className=" bg-white p-2 md:p-6 rounded-lg shadow-lg ">
+    <div className="bg-white p-2 md:p-6 rounded-lg shadow-lg">
       <div className="overflow-x-auto">
         <table className="w-full table-auto border-collapse">
           <thead className="bg-gradient-to-r from-gray-200 to-gray-300">
@@ -167,8 +166,8 @@ const AvailableGamesTable = (games) => {
             </tr>
           </thead>
           <tbody>
-            {games.games.length > 0 ? (
-              games.games.map((gameItem, index) => (
+            {games.length > 0 ? (
+              games.map((gameItem, index) => (
                 <tr
                   key={gameItem.gameNo}
                   className={`${
@@ -186,7 +185,6 @@ const AvailableGamesTable = (games) => {
                     {gameItem.batchNo}
                   </td>
                   <td className="text-center py-3 md:px-4 px-1">
-                    {" "}
                     {gameItem.ticketCost}
                   </td>
                   <td className="text-center py-3 md:px-4 px-1">
@@ -208,7 +206,7 @@ const AvailableGamesTable = (games) => {
                   <td className="text-center py-3 md:px-4 px-1">
                     {gameItem.status === "Initiated" ? (
                       <button
-                        onClick={handleGenerateClick}
+                        onClick={() => handleGenerateClick(gameItem)}
                         className="flex items-center gap-2 text-blue-600 hover:text-blue-800 transition"
                       >
                         <RiAiGenerate size={24} />
@@ -216,7 +214,7 @@ const AvailableGamesTable = (games) => {
                       </button>
                     ) : (
                       <button
-                        onClick={handleDownloadClick}
+                        onClick={() => handleDownloadClick(gameItem)}
                         className="flex items-center gap-2 text-blue-600 hover:text-blue-800 transition"
                       >
                         <FaDownload size={24} />
@@ -229,7 +227,7 @@ const AvailableGamesTable = (games) => {
             ) : (
               <tr>
                 <td colSpan="8" className="text-center py-6 text-gray-500">
-                  {"No results found"}
+                  No results found
                 </td>
               </tr>
             )}

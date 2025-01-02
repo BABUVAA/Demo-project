@@ -4,7 +4,10 @@ import react from "@vitejs/plugin-react";
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-  proxy: {
-    "/WeaverBO": "https://uat-api.mayfaironlinecasino.co.ke",
+  server: {
+    proxy: {
+      "/api": "http://localhost:5000", // If your backend is running locally on port 5000
+      "/WeaverBO": "https://uat-api.mayfaironlinecasino.co.ke",
+    },
   },
 });
